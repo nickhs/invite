@@ -83,7 +83,7 @@ def no_thanks():
     """
     The user comes here if they choose the no option out of the email.
     """
-    return render_template('register.html')
+    return render_template('no-thanks.html')
 
 
 if __name__ == '__main__':
