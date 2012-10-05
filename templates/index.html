@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Hello{% endblock %}
+{% block content %}
+<div class="row">
+       <div class="span9 offset1">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li class="flashes">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+</div>
+This is the index page where the root of the domain is. It may just show something simple and useless.
+{% endblock %}
