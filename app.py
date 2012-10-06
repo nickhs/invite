@@ -6,7 +6,7 @@ from flask import (
     url_for, flash,
     render_template)
 
-from flaskext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 from flask.ext.wtf import (
         Form, SelectField,
