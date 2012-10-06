@@ -57,6 +57,14 @@ def register_guest(name, email, plus):
         return None
 
 
+def send_email(to, name, subject, text, html):
+    message = sendgrid.Message(('invites@kiip.com', 'Kiip Invites'),
+                               subject, text, html)
+
+    message.add_to(to, name)
+    mailer.web.send(message)
+
+
 @app.route('/')
 def index():
     """
@@ -87,15 +95,8 @@ def register():
         flash("You have been registed! We've sent the details to the email \
 you provided. Thanks!")
 
-        m_subject = "Your invite to an exclusive event"
-        m_body = "YES"
-        m_html = "YES"
-
-        message = sendgrid.Message(('invites@kiip.com', 'Kiip Invites'),
-                                   m_subject, m_body, m_html)
-
-        message.add_to(form.email.data, form.name.data)
-        mailer.web.send(message)
+        body = "YES"
+        send_email(form.email.data, form.name.data, "Kiip Invite", body, body)
 
         return redirect(url_for('index'))
 
