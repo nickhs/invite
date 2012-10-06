@@ -2,16 +2,15 @@ from datetime import datetime
 
 from flask import (
     Flask,
-    request, redirect,
-    url_for, flash,
-    render_template)
+    redirect, url_for,
+    flash, render_template)
 
 from flask.ext.sqlalchemy import SQLAlchemy
 
 from flask.ext.wtf import (
-        Form, SelectField,
-        TextField,
-        Email, Required)
+    Form, SelectField,
+    TextField,
+    Email, Required)
 
 
 app = Flask(__name__)
@@ -33,12 +32,13 @@ class Registration(db.Model):
     Stores the information about the registered attendee.
     """
     id = db.Column(db.Integer, primary_key=True, index=True)
-    created_at  = db.Column(db.DateTime, default=datetime.utcnow)
-    modified_at = db.Column(db.DateTime, default=datetime.utcnow, \
-                        onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    modified_at = db.Column(db.DateTime, default=datetime.utcnow,
+                            onupdate=datetime.utcnow)
     email = db.Column(db.String)
     name = db.Column(db.String)
     plan = db.Column(db.Integer)
+
 
 def register_guest(name, email, plus):
     reg = Registration()
@@ -52,12 +52,14 @@ def register_guest(name, email, plus):
     except:
         return None
 
+
 @app.route('/')
 def index():
     """
     The homepage, where the user comes when they visit the root of the domain.
     """
     return render_template('index.html')
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -85,6 +87,7 @@ you provided. Thanks!")
 
     else:
         return render_template('register.html', form=form)
+
 
 @app.route('/no-thanks')
 def no_thanks():
