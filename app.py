@@ -12,10 +12,14 @@ from flask.ext.wtf import (
     TextField,
     Email, Required)
 
+import sendgrid
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.py')
 db = SQLAlchemy(app)
+mailer = sendgrid.Sendgrid(app.config['SENDGRID_USERNAME'],
+                           app.config['SENDGRID_PASSWORD'],
+                           secure=True)
 
 
 class RegistrationForm(Form):
@@ -82,6 +86,16 @@ def register():
         # Flash a success message and redirect to the homepage.
         flash("You have been registed! We've sent the details to the email \
 you provided. Thanks!")
+
+        m_subject = "Your invite to an exclusive event"
+        m_body = "YES"
+        m_html = "YES"
+
+        message = sendgrid.Message(('invites@kiip.com', 'Kiip Invites'),
+                                   m_subject, m_body, m_html)
+
+        message.add_to(form.email.data, form.name.data)
+        mailer.web.send(message)
 
         return redirect(url_for('index'))
 
