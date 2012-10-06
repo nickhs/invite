@@ -45,7 +45,12 @@ def register_guest(name, email, plus):
     reg.email = email
     reg.name = name
     reg.plus = int(plus)
-
+    db.session.add(reg)
+    try:
+        db.session.commit()
+        return reg
+    except:
+        return None
 
 @app.route('/')
 def index():
@@ -63,11 +68,14 @@ def register():
     if form.validate_on_submit():
 
         # Register the user.
-        register_guest(
+        reg = register_guest(
             form.name.data,
             form.email.data,
             form.plan.data
         )
+
+        if not reg:
+            flash("Sorry! We were unable to register you!")
 
         # Flash a success message and redirect to the homepage.
         flash("You have been registed! We've sent the details to the email \
